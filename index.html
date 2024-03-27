@@ -3,19 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./reset.css">
+    <link rel="stylesheet" href="./style.css">
     <title>Juego snake</title>
 </head>
 <body>
     
-    <h1>Bienvenido al juego Snake</h1>
+    <h1>Bienvenido al juego Snake!</h1>
 
-    <div>
+    <div class="contenedorJuego">
         <p>score: <span id="score"></span></p>
-
-        <canvas id="juego">
-
-        </canvas>
-        <button class="botonInicio">Start</button>
+        <div class="pantallaDeJuego"><canvas id="juego"></canvas></div>
+        <div class="botonInicio"><button>Start</button></div>
     </div>
 
 </body>
