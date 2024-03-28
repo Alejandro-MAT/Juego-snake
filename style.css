@@ -1,26 +1,30 @@
-*{
-    background-color: rgba(12, 10, 44, 1);
+body{
+    background: url("./img/360_F_618304869_U4i0Ji9NHxwYgErlR20KoqdSXSVliwuf.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
 }
 
 h1{
     color: rgba(18, 236, 75, 1);
     text-shadow: 0 0 0.2em #8F7;
-    border: 1px solid red;    
+    /* border: 1px solid red;     */
     font-size: 3rem;
     text-align: center;
     margin: 1rem 0 3rem 0;
 }
 
 .contenedorJuego{
-    border: 1px solid white;
+    /* border: 1px solid white; */
 }
 
 p{
     width: 60%;
     color: azure;
-    border: 1px solid blue;
+    /* border: 1px solid blue; */
     font-size: 1.5rem;
-    margin: 0 auto;
+    margin: 0 auto; 
 }
 
 .pantallaDeJuego{
@@ -30,7 +34,7 @@ p{
 }
 .pantallaDeJuego>canvas{
     width: 100%;
-    background-color: rgba(108, 12, 208, 1);
+    background-color: rgba(4, 189, 44, 1);
 }
 
 .botonInicio{
@@ -39,9 +43,21 @@ p{
 }
 
 .botonInicio>button{
-    margin-left: 40%;
-    width: 20%;
-    color: yellowgreen;
-    background-color: yellow;
-
+    position: relative;
+    margin-left: 35%;
+    padding: 1.5%;
+    width: 30%;
+    color: #ffffff;
+    background-color: #a945c7;
+    font-size: 1.5rem;
+    overflow: hidden;
+    transition: 0.2s;
+    border-radius: 20px;
+    text-decoration: none;
+    
+}
+.botonInicio>button:hover{
+    background: #a945c7;
+    box-shadow: 0 0 10px #a945c7, 0 0 40px #a945c7, 0 0 80px #a945c7;
+    transition: 1s;
 }
