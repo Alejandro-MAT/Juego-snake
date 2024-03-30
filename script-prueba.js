@@ -12,10 +12,10 @@ const DIRECCIONES = {
 }
 
 let culebra = [
-    { posX:10, posY:10 },
-    { posX:20, posY:10 },
+    { posX:40, posY:10 },//cabeza
     { posX:30, posY:10 },
-    { posX:40, posY:10 },
+    { posX:20, posY:10 },
+    { posX:10, posY:10 }
 ]
 
 
@@ -35,27 +35,47 @@ function limpiarPantalla(){
 
 function ajustarPosicion(){
     if(direccion === DIRECCIONES.IZQUIERDA){
-        for (let i = 1; i < culebra.length-1; i++) {
-            culebra[culebra.length-i].posX=culebra[culebra.length-(i+1)].posX;
-            // culebra[culebra.length-i].posY=culebra[culebra.length-(i+1)].posY;
-        }
-        culebra[3].posX-=10;
+        // if (culebra[1].posX==culebra[0].posX-10 && culebra[0].posY==culebra[1].posY) {
+        //     new Error ("Direccion tiene un valor invalido");
+        // }else{
+            for (let i = 1; i < culebra.length; i++) {
+                culebra[i].posX=culebra[i-1].posX;
+                culebra[i].posY=culebra[i-1].posY;
+            }
+        culebra[0].posX-=10;
+
+        // }
     }else if(direccion===DIRECCIONES.DERECHA){
-        for (cuerpoCulebra of culebra){
-            cuerpoCulebra.posX+=10;
-        }
+        // if (culebra[1].posX==culebra[0].posX-10 && culebra[0].posY==culebra[1].posY) {
+        //     new Error ("Direccion tiene un valor invalido");
+        // }else{
+            for (let i = 1; i < culebra.length; i++) {
+                culebra[i].posX=culebra[i-1].posX;
+                culebra[i].posY=culebra[i-1].posY;
+            }
+        culebra[0].posX+=10;
+        // }
 
     }else if(direccion===DIRECCIONES.ABAJO){
-        for (let i = 1; i < culebra.length-1; i++) {
-            culebra[culebra.length-i/*3*/].posY=culebra[culebra.length-(i+1)].posY;
-            culebra[culebra.length-i].posX=culebra[culebra.length-(i+1)].posX;
-            // culebra[culebra.length-i].posY=culebra[culebra.length-(i+1)].posY;
-        }
-        culebra[3].posY+=10;
+        // if (culebra[1].posY==culebra[0].posY-10 && culebra[0].posX==culebra[1].posX) {
+        //     new Error ("Direccion tiene un valor invalido");
+        // }else{
+            for (let i = 1; i < culebra.length; i++) {
+                culebra[i].posX=culebra[i-1].posX;
+                culebra[i].posY=culebra[i-1].posY;
+            }
+        culebra[0].posY+=10;
+        // }
     }else if(direccion===DIRECCIONES.ARRIBA){
-        for (let cuerpoCulebra of culebra) {
-            cuerpoCulebra.posY-=10;
-        }
+        // if (culebra[1].posY==culebra[0].posY-10 && culebra[0].posX==culebra[1].posX) {
+        //     new Error ("Direccion tiene un valor invalido");
+        // }else{
+            for (let i = 1; i < culebra.length; i++) {
+                culebra[i].posX=culebra[i-1].posX;
+                culebra[i].posY=culebra[i-1].posY;
+            }
+        culebra[0].posY-=10;
+        // }
     }
 }
 
