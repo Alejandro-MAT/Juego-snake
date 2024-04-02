@@ -1,97 +1,136 @@
-const juegoCanvas = document.getElementById("juego");
-const pantalla = juegoCanvas.getContext("2d");
+//Obtengo el lienzo
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
 
-// let posicionInicialX=10,  posicionInicialY=10;
-let direccion;
+//Tamaño de cada segmento y velocidad
+const segmentSize = 20;
+const segmentSpeed = 70;
 
-const DIRECCIONES = {
-    ARRIBA: 1,
-    ABAJO: 2,
-    IZQUIERDA: 3,
-    DERECHA: 4
+//Dimensiones del lienzo
+canvas.width=canvas.clientWidth;
+canvas.height=canvas.clientHeight;
+
+//Inicializar la serpiente y el punto de comida
+let snake=[{ x: 0, y: 0 }];
+let food=[{ x: 0, y: 0}];
+
+//Direccion inicial de la serpiente
+let dx=segmentSize;
+let dy=0;
+
+//Iniciador del juego
+let reset = false;
+
+//Obtener el score
+let puntaje = document.getElementById("score");
+puntaje.innerHTML= 0;
+
+//Generar aleatoriamente la comida
+function generateFood(){
+    food.x= Math.floor(Math.random() * (canvas.width / segmentSize)) * segmentSize;
+    food.y= Math.floor(Math.random() * (canvas.height / segmentSize)) * segmentSize;
 }
 
-let culebra = [
-    { posX:40, posY:10 },//cabeza
-    { posX:30, posY:10 },
-    { posX:20, posY:10 },
-    { posX:10, posY:10 }
-]
+//Funcion reiniciar juego
+function resetGame(){
+    snake = [{ x: 0, y: 0}];
+    dx = segmentSize;
+    dy = 0;
+    puntaje.innerHTML=0;
+    generateFood();
+    reset=false;
+}
 
-
-
-function dibujarCulebra(){
-    for (let cuerpoCulebra of culebra) {
-        pantalla.beginPath();
-        pantalla.rect(cuerpoCulebra.posX,cuerpoCulebra.posY,10,10);
-        pantalla.stroke();
+// Funcion para verificar si la serpiente ha chocado con el borde
+function checkColision(){
+    const head = snake[0];
+    if (head.x < 0 ||
+        head.x >= canvas.width || 
+        head.y < 0 || 
+        head.y >= canvas.height
+        ){
+        reset=true;
     }
 }
 
-
-function limpiarPantalla(){
-    pantalla.clearRect(0,0,juegoCanvas.width,juegoCanvas.height);
-}
-
-function ajustarPosicion(){
-    if(direccion === DIRECCIONES.IZQUIERDA){
-        // if (culebra[1].posX==culebra[0].posX-10 && culebra[0].posY==culebra[1].posY) {
-        //     new Error ("Direccion tiene un valor invalido");
-        // }else{
-            for (let i = 1; i < culebra.length; i++) {
-                culebra[i].posX=culebra[i-1].posX;
-                culebra[i].posY=culebra[i-1].posY;
-            }
-        culebra[0].posX-=10;
-
-        // }
-    }else if(direccion===DIRECCIONES.DERECHA){
-        // if (culebra[1].posX==culebra[0].posX-10 && culebra[0].posY==culebra[1].posY) {
-        //     new Error ("Direccion tiene un valor invalido");
-        // }else{
-            for (let i = 1; i < culebra.length; i++) {
-                culebra[i].posX=culebra[i-1].posX;
-                culebra[i].posY=culebra[i-1].posY;
-            }
-        culebra[0].posX+=10;
-        // }
-
-    }else if(direccion===DIRECCIONES.ABAJO){
-        // if (culebra[1].posY==culebra[0].posY-10 && culebra[0].posX==culebra[1].posX) {
-        //     new Error ("Direccion tiene un valor invalido");
-        // }else{
-            for (let i = 1; i < culebra.length; i++) {
-                culebra[i].posX=culebra[i-1].posX;
-                culebra[i].posY=culebra[i-1].posY;
-            }
-        culebra[0].posY+=10;
-        // }
-    }else if(direccion===DIRECCIONES.ARRIBA){
-        // if (culebra[1].posY==culebra[0].posY-10 && culebra[0].posX==culebra[1].posX) {
-        //     new Error ("Direccion tiene un valor invalido");
-        // }else{
-            for (let i = 1; i < culebra.length; i++) {
-                culebra[i].posX=culebra[i-1].posX;
-                culebra[i].posY=culebra[i-1].posY;
-            }
-        culebra[0].posY-=10;
-        // }
+//Funcion para verificar si la serpiente ha chocado consigo misma
+function checkSelfColision(){
+    const head = snake[0];
+    for (let i = 1; i < snake.length; i++) {
+        if (snake[i].x === head.x && snake[i].y === head.y) {
+            reset=true;
+            break
+        }
     }
 }
 
+function update(){
+    const head = {x:snake[0].x + dx, y:snake[0].y + dy};
 
-document.addEventListener('keydown',function(event) {
-    if (event.key == 'ArrowLeft') {
-        direccion=DIRECCIONES.IZQUIERDA;
-    }else if (event.key == 'ArrowRight') {
-        direccion=DIRECCIONES.DERECHA;
-    }else if (event.key == 'ArrowUp') {
-        direccion=DIRECCIONES.ARRIBA;
-    }else if (event.key == 'ArrowDown') {
-        direccion=DIRECCIONES.ABAJO;
+    //verificar si la serpiente ha chocado con el borde
+    checkColision();
+    //Verificar si la serpiente ha chocado consigo misma
+    checkSelfColision();
+    //Resetear el juego si la serpiente ha chocado
+    if (reset){
+        resetGame();
+        return;
     }
 
-    limpiarPantalla();
-    ajustarPosicion();
-    dibujarCulebra();
-})
+    snake.unshift(head);
+
+    //Comprobar si la serpiente ha comido el punto de comida
+    if (head.x===food.x && head.y===food.y) {
+        //Genera un punto de comida y hace crecer la serpiente
+        puntaje.innerHTML++;
+        generateFood();
+    }else{
+        snake.pop();
+    }
+}
+
+function draw(){
+    //Limpiar el lienzo
+    ctx.fillStyle = "black";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+
+    //Dibujar la serpiente
+    ctx.fillStyle = "green";
+    snake.forEach((segment) =>{
+        ctx.fillRect(segment.x,segment.y,segmentSize,segmentSize);
+    });
+
+    //Dibujar el punto de comida
+    ctx.fillStyle = "red";
+    ctx.fillRect(food.x,food.y,segmentSize,segmentSize);
+}
+
+document.addEventListener("keydown", (event) =>{
+    if (event.key === "ArrowUp" && dy !== segmentSize){
+        dx=0;
+        dy= -segmentSize;
+    }else if(event.key === "ArrowDown" && dy !== -segmentSize){
+        dx=0;
+        dy=segmentSize;
+    }else if(event.key === "ArrowLeft" && dx !== segmentSize){
+        dx=-segmentSize;
+        dy=0;
+    }else if(event.key === "ArrowRight" && dx !== -segmentSize){
+        dx=segmentSize;
+        dy=0;
+    } 
+});
+
+//Funcion de bucle del juego
+function gameLoop(){
+    update();
+    draw();
+    setTimeout(gameLoop,segmentSpeed);
+}
+
+//Genera el primer punto de comida
+generateFood();
+//Iniciar el bucle del juego
+gameLoop();
+
+

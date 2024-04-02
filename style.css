@@ -9,31 +9,31 @@ body{
 h1{
     color: rgba(18, 236, 75, 1);
     text-shadow: 0 0 0.2em #8F7;
-    /* border: 1px solid red;     */
     font-size: 3rem;
     text-align: center;
     margin: 1rem 0 3rem 0;
 }
 
 .contenedorJuego{
-    /* border: 1px solid white; */
+    margin-bottom: 20px;
 }
 
 p{
     width: 60%;
     color: azure;
-    /* border: 1px solid blue; */
     font-size: 1.5rem;
     margin: 0 auto; 
 }
 
 .pantallaDeJuego{
     width: 60%;
+    height: 65vh;
     margin: 2rem auto;
     
 }
 .pantallaDeJuego>canvas{
     width: 100%;
+    height: 100%;
     background-color: rgba(4, 189, 44, 1);
 }
 
