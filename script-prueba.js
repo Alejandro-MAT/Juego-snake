@@ -127,10 +127,19 @@ function gameLoop(){
     draw();
     setTimeout(gameLoop,segmentSpeed);
 }
+function iniciarJuego(){
+    //Genera el primer punto de comida
+    generateFood();
+    //Iniciar el bucle del juego
+    gameLoop();
+}
 
-//Genera el primer punto de comida
-generateFood();
-//Iniciar el bucle del juego
-gameLoop();
+
+// //Genera el primer punto de comida
+// generateFood();
+// //Iniciar el bucle del juego
+// gameLoop();
+
+
 
 
